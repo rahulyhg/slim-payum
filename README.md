@@ -5,17 +5,23 @@ Example of payum with Slim3.
 To create a simple API endpoint for charging credit cards.
 
 1) It should not persist anything.
+
 2) All configurations should be passed to the API as POST.
+
 3) Project is setup as skeleton so that it can easily convert to persist data. 
+
 4) Deploy anywhere: cpanel, docker, etc...
 
 ## Benefits
 1) Secure since we do not store anything?
+
 2) Micro-service style/architecture.
+
 3) Easy to add new payment gateways provided by Payum and Omnipay.
 
 ## Cons
 1) Add another layer of complexity?  This code provide a good starting point/example.  For better flexibility, developer can use it as example to implement payment directly into their own framework.
+
 2) Anytime there is a new network layer, there is a possibility of man-in-the-middle attack.  This kind of service should run behind SSL in Production.  It's easy to obtain cheap or free SSL these day with service such as https://letsencrypt.org/
 
 # Example
