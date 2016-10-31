@@ -51,20 +51,9 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 			return $session->getSegment($settings['namespace']);
 		};
 
-		$container['db'] = function ($c) {
-			$capsule = new \Illuminate\Database\Capsule\Manager;
-			$capsule->addConnection($c['settings']['db']);
-
-			return $capsule;
-		};
-
-		// init eloquent
-		$capsule = $container->db;
-		$capsule->setAsGlobal();
-		$capsule->bootEloquent();
-
+	
 		$container['payum'] = function ($c) {
-			$builder = new \Payum\Core\PayumBuilder();
+			$builder = new \AppMain\MyPayumBuilder();
 			$builder->setTokenStorage(new \AppMain\Storage\TokenMemoryStorage(\AppMain\Model\TokenModel::class))
 				->setGatewayConfigStorage(new \AppMain\Storage\GatewayConfigContainerStorage(\AppMain\Model\GatewayConfigModel::class, $c));
 
@@ -86,6 +75,19 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 			return $builder->getPayum();
 		};
 	}
+		$container['db'] = function ($c) {
+			$capsule = new \Illuminate\Database\Capsule\Manager;
+			$capsule->addConnection($c['settings']['db']);
+
+			return $capsule;
+		};
+
+		// finally, init eloquent if you want to use it for storage
+		/*
+		$capsule = $container->db;
+		$capsule->setAsGlobal();
+		$capsule->bootEloquent();
+		*/
 
 	/**
 	 * {@inheritdoc}

@@ -1,5 +1,12 @@
 # slim-payum
-Example of payum with Slim3.  
+Example of payum with Slim3.  Below describes the process we took in developing this demo.
+
+0.1.0
+- demonstrates omnipay_authorizenet_sim
+
+0.1.1
+- demonstrating how to add omnipay_firstdata_payeezy
+At the time, omnipay/omnipay does not reference firstdata_payeezy so we manually add it.  This mean that we have to remove reference from omnipay/omnipay, update composer.json to match, and create customer PayumBuilder to include the new payment type.
 
 ## Goals
 To create a simple API endpoint for charging credit cards.
@@ -132,6 +139,16 @@ php -S 0.0.0.0:8888 -t public
 TODO
 ```
 
+# Other Prerequisites
+* Payum and Omnipay requires ext-intl
+
+- Install WAMP on windows and just enable this via php.ini
+
+- On other platforms: https://asdqwe.net/blog/enabling-installing-intl-package-php-from-terminal/
+
+-- OSX additional info/debug: https://github.com/phpbrew/phpbrew/wiki/TroubleShooting#configure-error-unable-to-detect-icu-prefix-or-no-failed-please-verify-icu-install-prefix-and-make-sure-icu-config-works
+
+
 # REFERENCE
 This project was created as a learning/tutorial for using Payum, Omnipay, and proof of concept for integrating with Slim.  For questions relating to the various libraries used in this project, please refer to:
 
@@ -140,6 +157,9 @@ slim - https://github.com/slimphp/Slim
 payum - https://github.com/payum/payum
 
 omnipay - https://github.com/thephpleague/omnipay
+
+# NOTE
+* You can simply put in any site.
 
 # ADDITION
 1) Create another microservice that support credit card vault/token capability for gateway such as: AuthorizeNet, Stripe, etc...
