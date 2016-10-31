@@ -2,7 +2,7 @@
 Example of payum with Slim3.  Below describes the process we took in developing this demo.
 
 0.1.0
-- demonstrates omnipay_authorizenet_sim
+- demonstrates omnipay_authorizenet_aim
 
 0.1.1
 - demonstrating how to add omnipay_firstdata_payeezy
@@ -59,7 +59,7 @@ curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/pa
         "card": {
             "number": "5424000000000015",
             "expiryMonth": "12",
-            "expiryYear": "22",
+            "expiryYear": "20",
             "cvv": "999"
         }
     }
