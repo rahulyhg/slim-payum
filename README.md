@@ -119,11 +119,7 @@ curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/pa
 ```
 
 ## more (TODO)
-stripe - link to stripe.md
-
-paypal - link to paypal.md
-
-firstdata - link to firstdata.md
+[omnipay_firstdata_payeezy.md](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_firstdata_payeezy.md)
 
 ...
 
