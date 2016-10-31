@@ -1,6 +1,7 @@
 <?php
 namespace AppMain;
 
+use Payum\Core\PayumBuilder;
 use Payum\AuthorizeNet\Aim\AuthorizeNetAimGatewayFactory;
 use Payum\Be2Bill\Be2BillDirectGatewayFactory;
 use Payum\Be2Bill\Be2BillOffsiteGatewayFactory;
@@ -38,21 +39,21 @@ use Payum\Sofort\SofortGatewayFactory;
 use Payum\Stripe\StripeCheckoutGatewayFactory;
 use Payum\Stripe\StripeJsGatewayFactory;
 
-class MyPayumBuilder extends \Payum\PayumBuilder
+class MyPayumBuilder extends \Payum\Core\PayumBuilder
 {
     /**
      * @param GatewayFactoryInterface $coreGatewayFactory
      *
      * @return GatewayFactoryInterface[]
      */
-    protected function buildOmnipayGatewayFactories(GatewayFactoryInterface $coreGatewayFactory)
+    protected function buildOmnipayGatewayFactories(\Payum\Core\GatewayFactoryInterface $coreGatewayFactory)
     {
         $gatewayFactories = parent::buildOmnipayGatewayFactories($coreGatewayFactory);
         $factory = \Omnipay\Omnipay::getFactory();
 
         // add firstdata_payeezy
         $type = 'FirstData_Payeezy';
-        $gatewayFactories[strtolower('omnipay_'.$type)] = new OmnipayGatewayFactory($type, $factory, [], $coreGatewayFactory);
+        $gatewayFactories[strtolower('omnipay_'.$type)] = new \Payum\OmnipayBridge\OmnipayGatewayFactory($type, $factory, [], $coreGatewayFactory);
 
         return $gatewayFactories;
     }

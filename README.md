@@ -163,6 +163,7 @@ omnipay - https://github.com/thephpleague/omnipay
 
 # ADDITION
 1) Create another microservice that support credit card vault/token capability for gateway such as: AuthorizeNet, Stripe, etc...
+
 2) Create a cart service/plugin that utlize this service...
 
 # LICENSE

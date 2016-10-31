@@ -74,7 +74,7 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 
 			return $builder->getPayum();
 		};
-	}
+	
 		$container['db'] = function ($c) {
 			$capsule = new \Illuminate\Database\Capsule\Manager;
 			$capsule->addConnection($c['settings']['db']);
@@ -88,6 +88,7 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 		$capsule->setAsGlobal();
 		$capsule->bootEloquent();
 		*/
+	}
 
 	/**
 	 * {@inheritdoc}
