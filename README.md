@@ -6,7 +6,7 @@ Example of payum with Slim3.  Below describes the process we took in developing 
 
 0.1.1
 - demonstrating how to add omnipay_firstdata_payeezy
-At the time, omnipay/omnipay does not reference firstdata_payeezy so we manually add it.  This mean that we have to remove reference from omnipay/omnipay, update composer.json to match, and create customer PayumBuilder to include the new payment type.
+At the time, omnipay/omnipay does not reference firstdata_payeezy so we manually add it.  This mean that we have to remove reference from omnipay/omnipay, update composer.json to match, and create custom PayumBuilder to include the new payment type.
 
 ## Goals
 To create a simple API endpoint for charging credit cards.
