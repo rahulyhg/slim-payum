@@ -51,11 +51,15 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 			return $session->getSegment($settings['namespace']);
 		};
 
-	
 		$container['payum'] = function ($c) {
 			$builder = new \AppMain\MyPayumBuilder();
 			$builder->setTokenStorage(new \AppMain\Storage\TokenMemoryStorage(\AppMain\Model\TokenModel::class))
 				->setGatewayConfigStorage(new \AppMain\Storage\GatewayConfigContainerStorage(\AppMain\Model\GatewayConfigModel::class, $c));
+
+			// add custom gateway factory
+			$builder->addGatewayFactory('payeezy', function (array $config, $coreGatewayFactory) {
+				return new \Payum\Payeezy\PayeezyGatewayFactory($config, $coreGatewayFactory);
+			});
 
 			// this is helpful if you want to setup the Payum recommended multi-step Token payment setup
 			/*
@@ -74,7 +78,7 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 
 			return $builder->getPayum();
 		};
-	
+
 		$container['db'] = function ($c) {
 			$capsule = new \Illuminate\Database\Capsule\Manager;
 			$capsule->addConnection($c['settings']['db']);
@@ -109,7 +113,7 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 		$app->route(['get'], '/', $homeCtrl, 'Home')->setName('home');
 		$app->group('/api/payment', function () {
 			$paymentCtrl = \AppMain\Controller\PaymentController::class;
-			$this->route(['POST'], '/charge', $paymentCtrl, 'Charge')->setName('payment.charge');
+			$this->route(['POST'], '/purchase', $paymentCtrl, 'Charge')->setName('payment.charge');
 
 			// this is helpful if you want to setup the Payum recommended multi-step Token payment setup
 			/*
@@ -117,10 +121,8 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 			$this->route(['GET'], '/done/{payum_token}', $paymentCtrl, 'Done')->setName('payment.done');
 			$this->route(['GET'], '/authorize/{payum_token}', $paymentCtrl, 'Authorize')->setName('payment.authorize');
 			$this->route(['GET'], '/capture/{payum_token}', $paymentCtrl, 'Capture')->setName('payment.capture');
-			$this->route(['GET'], '/notify/{payum_token}', $paymentCtrl, 'Notify')->setName('payment.notify');
 			$this->route(['GET'], '/cancel/{payum_token}', $paymentCtrl, 'Cancel')->setName('payment.cancel');
 			$this->route(['GET'], '/refund/{payum_token}', $paymentCtrl, 'Refund')->setName('payment.refund');
-			$this->route(['GET'], '/payout/{payum_token}', $paymentCtrl, 'Payout')->setName('payment.payout');
 			*/
 		});
 	}

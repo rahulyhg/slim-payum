@@ -19,13 +19,12 @@ To create a simple API endpoint for charging credit cards.
 
 4) Deploy anywhere: cpanel, docker, etc...
 
-## Benefits
+## Benefits/Pros
 1) Secure since we do not store anything?
 
 2) Micro-service style/architecture.
 
 3) Easy to add new payment gateways provided by Payum and Omnipay.
-
 
 ## Cons
 1) Add another layer of complexity?  This code provide a good starting point/example.  For better flexibility, developer can use it as example to implement payment directly into their own framework.
@@ -33,6 +32,15 @@ To create a simple API endpoint for charging credit cards.
 2) Anytime there is a new network layer, there is a possibility of man-in-the-middle attack.  This kind of service should run behind SSL in Production.  It's easy to obtain cheap or free SSL these day with service such as https://letsencrypt.org/
 
 # Example
+The plan is to demonstrate the five most common methods in Credit Card payment transaction:
+
+1) Authorize - put a hold on the credit card with a certain amount.
+2) Capture - this is called after authorize to charge the card.
+3) Purchase - this is doing both Authorize then Capture at the same time.
+4) Cancel/Void - to cancel or void the transaction.  Usually done on the same day to prevent daily transaction reconsolication.
+5) Refund - to issue a refund for the transaction.
+
+At this time, we're only demonstrating the Purchase transaction.
 
 ## OMNIPAY - AuthorizeNet - AIM
 Before you start, signup and obtain a sandbox account with AuthorizeNet: https://developer.authorize.net/
@@ -41,7 +49,7 @@ Login to the console and obtain an apiLoginId and transactionKey.
 
 ### POST
 ```
-curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/payment/charge -d  '{
+curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/payment/purchase -d  '{
     "gateway": {
         "gatewayName": "test",
         "factoryName": "omnipay_authorizenet_aim",

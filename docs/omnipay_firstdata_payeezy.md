@@ -11,7 +11,7 @@ This is the old/firstdata payeezy API, *not* to be confused with: https://develo
 
 ## POST
 ```
-curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/payment/charge -d  '{
+curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/payment/purchase -d  '{
     "gateway": {
         "gatewayName": "test",
         "factoryName": "omnipay_firstdata_payeezy",
