@@ -34,9 +34,9 @@ The plan is to demonstrate the five most common methods in Credit Card payment t
 At this time, we're only demonstrating the *Purchase* transaction.
 
 ## Example
-[omnipay_authorizenet_aim GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_authorizenet_aim.md)
-[omnipay_firstdata_payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_firstdata_payeezy.md)
-[payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/payeezy.md)
+* [omnipay_authorizenet_aim GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_authorizenet_aim.md)
+* [omnipay_firstdata_payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_firstdata_payeezy.md)
+* [payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/payeezy.md)
 
 ...
 
