@@ -1,15 +1,14 @@
 # slim-payum
-Example of payum with Slim3.  Below describes the process we took in developing this demo.
+Example of payum with Slim3.
 
-0.1.0
-- demonstrates omnipay_authorizenet_aim
-
-0.1.1
-- demonstrating how to add omnipay_firstdata_payeezy
-At the time, omnipay/omnipay does not reference firstdata_payeezy so we manually add it.  This mean that we have to remove reference from omnipay/omnipay, update composer.json to match, and create custom PayumBuilder to include the new payment type.
+## run/debug
+```
+composer install
+php -S 0.0.0.0:8888 -t public
+```
 
 ## Goals
-To create a simple API endpoint for charging credit cards.
+To create a simple API endpoint for credit cards payment.
 
 1) It should not persist anything.
 
@@ -19,129 +18,27 @@ To create a simple API endpoint for charging credit cards.
 
 4) Deploy anywhere: cpanel, docker, etc...
 
-## Benefits/Pros
-1) Secure since we do not store anything?
-
-2) Micro-service style/architecture.
-
-3) Easy to add new payment gateways provided by Payum and Omnipay.
-
-## Cons
-1) Add another layer of complexity?  This code provide a good starting point/example.  For better flexibility, developer can use it as example to implement payment directly into their own framework.
-
-2) Anytime there is a new network layer, there is a possibility of man-in-the-middle attack.  This kind of service should run behind SSL in Production.  It's easy to obtain cheap or free SSL these day with service such as https://letsencrypt.org/
-
-# Example
+# Implementation
 The plan is to demonstrate the five most common methods in Credit Card payment transaction:
 
-1) Authorize - put a hold on the credit card with a certain amount.
-2) Capture - this is called after authorize to charge the card.
-3) Purchase - this is doing both Authorize then Capture at the same time.
-4) Cancel/Void - to cancel or void the transaction.  Usually done on the same day to prevent daily transaction reconsolication.
-5) Refund - to issue a refund for the transaction.
+1) *Authorize* - put a hold on the credit card with a certain amount.
 
-At this time, we're only demonstrating the Purchase transaction.
+2) *Capture* - this is called after authorize to charge the card.
 
-## OMNIPAY - AuthorizeNet - AIM
-Before you start, signup and obtain a sandbox account with AuthorizeNet: https://developer.authorize.net/
+3) *Purchase* - this is doing both Authorize then Capture at the same time.
 
-Login to the console and obtain an apiLoginId and transactionKey.
+4) *Cancel/Void* - to cancel or void the transaction.  Usually done on the same day to prevent daily transaction reconsolication.
 
-### POST
-```
-curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/payment/purchase -d  '{
-    "gateway": {
-        "gatewayName": "test",
-        "factoryName": "omnipay_authorizenet_aim",
-        "config": {
-            "apiLoginId": "xxx",
-            "transactionKey": "yyy",
-            "sandbox": true,
-            "testMode": true,
-            "developerMode": true
-        }
-    },
-    "order": {
-        "amount": 123.00,
-        "currency": "USD",
-        "card": {
-            "number": "5424000000000015",
-            "expiryMonth": "12",
-            "expiryYear": "20",
-            "cvv": "999"
-        }
-    }
-}'
-```
+5) *Refund* - to issue a refund for the transaction.
 
-### Result
-```
-{
-    "status": "captured",
-    "order": {
-        "amount": 123,
-        "currency": "USD",
-        "card": {
-            "number": "5424000000000015",
-            "expiryMonth": "12",
-            "expiryYear": "20",
-            "cvv": "999"
-        },
-        "clientIp": "127.0.0.1",
-        "transactionReference": "{\"approvalCode\":\"000000\",\"transId\":\"0\",\"card\":{\"number\":\"0015\",\"expiry\":\"122020\"}}",
-        "_data": {
-            "messages": {
-                "resultCode": "Ok",
-                "message": {
-                    "code": "I00001",
-                    "text": "Successful."
-                }
-            },
-            "transactionResponse": {
-                "responseCode": "1",
-                "authCode": "000000",
-                "avsResultCode": "P",
-                "cvvResultCode": {},
-                "cavvResultCode": {},
-                "transId": "0",
-                "refTransID": {},
-                "transHash": "0A1A9255A6CDBEA9AF272436245F3EBA",
-                "testRequest": "1",
-                "accountNumber": "XXXX0015",
-                "accountType": "MasterCard",
-                "messages": {
-                    "message": {
-                        "code": "1",
-                        "description": "This transaction has been approved."
-                    }
-                },
-                "transHashSha2": "F24F96B5FBD8A3BA607B980F2C096403F462D3AEFA9D476A0F5737BEC73237A57CB77D95EC0EB07A5365883F421526886FF015B905244588EAAE09FD47EAA876"
-            }
-        },
-        "_reference": "{\"approvalCode\":\"000000\",\"transId\":\"0\",\"card\":{\"number\":\"0015\",\"expiry\":\"122020\"}}",
-        "_status": "captured",
-        "_status_code": null,
-        "_status_message": ""
-    }
-}
-```
+At this time, we're only demonstrating the *Purchase* transaction.
 
-## more (TODO)
-[omnipay_firstdata_payeezy.md](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_firstdata_payeezy.md)
+## Example
+[omnipay_authorizenet_aim GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_authorizenet_aim.md)
+[omnipay_firstdata_payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_firstdata_payeezy.md)
+[payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/payeezy.md)
 
 ...
-
-# run/debug
-
-## development
-```
-php -S 0.0.0.0:8888 -t public
-```
-
-## docker
-```
-TODO
-```
 
 # Other Prerequisites
 * Payum and Omnipay requires ext-intl
@@ -163,12 +60,18 @@ payum - https://github.com/payum/payum
 omnipay - https://github.com/thephpleague/omnipay
 
 # NOTE
-* You can simply put in any site.
 
-# ADDITION
-1) Create another microservice that support credit card vault/token capability for gateway such as: AuthorizeNet, Stripe, etc...
+## Pros
+1) Secure since we do not store anything?
 
-2) Create a cart service/plugin that utlize this service...
+2) Micro-service style/architecture.
+
+3) Easy to add new payment gateways provided by Payum and Omnipay.
+
+## Cons
+1) Add another layer of complexity?  This code provide a good starting point/example.  For better flexibility, developer can use it as example to implement payment directly into their own framework.
+
+2) Anytime there is a new network layer, there is a possibility of man-in-the-middle attack.  This kind of service should run behind SSL in Production.  It's easy to obtain cheap or free SSL these day with service such as https://letsencrypt.org/
 
 # LICENSE
 The MIT License (MIT)
