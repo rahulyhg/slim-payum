@@ -1,5 +1,4 @@
 <?php
-
 // Define path to application directory
 defined('APP_PATH')
 || define('APP_PATH', realpath(dirname(__FILE__) . '/../'));
@@ -8,7 +7,7 @@ defined('APP_PATH')
 defined('APP_ENV')
 || define('APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'prd'));
 
-// enable debug
+// enable debug in non-prod
 if (APP_ENV !== 'prd') {
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL | E_STRICT);
@@ -27,5 +26,5 @@ $classLoader = require APP_PATH . '/vendor/autoload.php';
 $dotenv = new Dotenv\Dotenv(APP_PATH);
 $dotenv->load();
 
-// App settings
+// load app settings
 $appSettings = require APP_PATH . '/src/settings.php';

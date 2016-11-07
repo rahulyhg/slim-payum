@@ -1,5 +1,7 @@
 <?php
 require_once 'public/prepare.php';
+
+// sphinx configuration
 return [
 	'paths' => [
 		'migrations' => 'migrations',
@@ -9,7 +11,7 @@ return [
 		'default_migration_table' => 'phinxlog',
 		'default_database' => 'dev',
 		'dev' => [
-			'adapter' => getenv('DB_DRIVER'),
+			'adapter' => 'mysql',
 			'host' => getenv('DB_HOST'),
 			'name' => getenv('DB_DATABASE'),
 			'user' => getenv('DB_USERNAME'),

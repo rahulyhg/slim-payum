@@ -5,6 +5,9 @@ require_once 'public/prepare.php';
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Phinx\Migration\AbstractMigration;
 
+/**
+ * This class is use by Phinx to do Eloquent migration.
+ */
 class Migration extends AbstractMigration {
 	/** @var \Illuminate\Database\Capsule\Manager $capsule */
 	public $capsule;

@@ -7,7 +7,12 @@ composer install
 php -S 0.0.0.0:8888 -t public
 ```
 
-## Goals
+## Examples
+* [payeezy example](https://github.com/slimdash/slim-payum/blob/master/docs/payeezy.md)
+* [omnipay_authorizenet_aim example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_authorizenet_aim.md)
+* [omnipay_firstdata_payeezy example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_firstdata_payeezy.md)
+
+## Goals/Rant
 To create a simple API endpoint for credit cards payment.
 
 1) It should not persist anything.
@@ -25,30 +30,20 @@ The plan is to demonstrate the five most common methods in Credit Card payment t
 
 2) *Capture* - this is called after authorize to charge the card.
 
-3) *Purchase* - this is doing both Authorize then Capture at the same time.
+3) *Purchase* - this is doing both Authorize then Capture at the same time.  This is either by calling the two method manually, or call the Capture without first calling the Authorize method.  The Payment Gateway/Factory must support Purchase for the second method.
 
-4) *Cancel/Void* - to cancel or void the transaction.  Usually done on the same day to prevent daily transaction reconsolication.
+4) *Cancel/Void* - to cancel or void the transaction.  Usually done on the same day to prevent daily transaction reconsolication.  This is also usually done after Authorize.
 
 5) *Refund* - to issue a refund for the transaction.
-
-At this time, we're only demonstrating the *Purchase* transaction.
-
-## Example
-* [omnipay_authorizenet_aim GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_authorizenet_aim.md)
-* [omnipay_firstdata_payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/omnipay_firstdata_payeezy.md)
-* [payeezy GatewayFactory example](https://github.com/slimdash/slim-payum/blob/master/docs/payeezy.md)
-
-...
 
 # Other Prerequisites
 * Payum and Omnipay requires ext-intl
 
-- Install WAMP on windows and just enable this via php.ini
+- For WAMP on Windows, just enable this via php.ini
 
-- On other platforms: https://asdqwe.net/blog/enabling-installing-intl-package-php-from-terminal/
+- On other Platforms: https://asdqwe.net/blog/enabling-installing-intl-package-php-from-terminal/
 
--- OSX additional info/debug: https://github.com/phpbrew/phpbrew/wiki/TroubleShooting#configure-error-unable-to-detect-icu-prefix-or-no-failed-please-verify-icu-install-prefix-and-make-sure-icu-config-works
-
+-- OSX additional instruction: https://github.com/phpbrew/phpbrew/wiki/TroubleShooting#configure-error-unable-to-detect-icu-prefix-or-no-failed-please-verify-icu-install-prefix-and-make-sure-icu-config-works
 
 # REFERENCE
 This project was created as a learning/tutorial for using Payum, Omnipay, and proof of concept for integrating with Slim.  For questions relating to the various libraries used in this project, please refer to:

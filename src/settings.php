@@ -13,7 +13,7 @@ return [
 
 		// Monolog settings
 		'logger' => [
-			'name' => 'slim-app',
+			'name' => 'slim-payum',
 			'path' => APP_PATH . '/logs/app.log',
 		],
 		'session' => [

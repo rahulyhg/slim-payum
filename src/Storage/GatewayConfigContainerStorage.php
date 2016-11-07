@@ -4,11 +4,19 @@ use Illuminate\Database\Eloquent\Model;
 use Payum\Core\Storage\AbstractStorage;
 
 /**
- * storage that get gateway config from token
+ * storage that get gateway config from request
  */
 class GatewayConfigContainerStorage extends AbstractStorage {
+	/**
+	 * container
+	 */
 	protected $container;
 
+	/**
+	 * init gateway config container storage
+	 * @param string $modelClass the model class
+	 * @param object $container  the slim container
+	 */
 	public function __construct($modelClass, $container) {
 		$this->modelClass = $modelClass;
 		$this->container = $container;

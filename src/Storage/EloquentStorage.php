@@ -13,6 +13,7 @@ class EloquentStorage extends AbstractStorage {
 	protected function doUpdateModel($model) {
 		$model->save();
 	}
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -21,6 +22,7 @@ class EloquentStorage extends AbstractStorage {
 	protected function doDeleteModel($model) {
 		$model->delete();
 	}
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -29,6 +31,7 @@ class EloquentStorage extends AbstractStorage {
 	protected function doGetIdentity($model) {
 		return new Identity($model->{$model->getKeyName()}, $model);
 	}
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -38,6 +41,7 @@ class EloquentStorage extends AbstractStorage {
 		$modelClass = $this->modelClass;
 		return $modelClass::find($id);
 	}
+
 	/**
 	 * {@inheritDoc}
 	 *

@@ -35,7 +35,7 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 
 		// monolog
 		$container['logger'] = function ($c) {
-			$settings = $c->get('settings')['Applogger'];
+			$settings = $c->get('settings')['logger'];
 			$logger = new \Monolog\Logger($settings['name']);
 			$logger->pushProcessor(new \Monolog\Processor\UidProcessor());
 			$logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], Monolog\Logger::DEBUG));
@@ -53,15 +53,18 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 
 		$container['payum'] = function ($c) {
 			$builder = new \AppMain\MyPayumBuilder();
-			$builder->setTokenStorage(new \AppMain\Storage\TokenMemoryStorage(\AppMain\Model\TokenModel::class))
-				->setGatewayConfigStorage(new \AppMain\Storage\GatewayConfigContainerStorage(\AppMain\Model\GatewayConfigModel::class, $c));
+			$builder->setTokenStorage(
+				new \AppMain\Storage\TokenMemoryStorage(\AppMain\Model\TokenModel::class))
+				->setGatewayConfigStorage(
+					new \AppMain\Storage\GatewayConfigContainerStorage(
+						\AppMain\Model\GatewayConfigModel::class, $c));
 
 			// add custom gateway factory
 			$builder->addGatewayFactory('payeezy', function (array $config, $coreGatewayFactory) {
 				return new \Payum\Payeezy\PayeezyGatewayFactory($config, $coreGatewayFactory);
 			});
 
-			// this is helpful if you want to setup the Payum recommended multi-step Token payment setup
+			// this is helpful if you want Payum recommended multi-step Token setup
 			/*
 			$builder->setTokenFactory(function ($tokenStorage, $registry) use ($c) {
 				return new \AppMain\TokenFactory($tokenStorage, $registry, $c);
@@ -98,7 +101,7 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 	 * {@inheritdoc}
 	 */
 	public function initMiddlewares(\SlimDash\Core\SlimDashApp $app) {
-		// check for roles
+		// a good place to check for roles
 	}
 
 	/**
@@ -108,9 +111,9 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 
 		// set default url right now
 		$homeCtrl = \AppMain\Controller\HomeController::class;
-
-		// var_dump($ctrl);
 		$app->route(['get'], '/', $homeCtrl, 'Home')->setName('home');
+
+		// setup payment url
 		$app->group('/api/payment', function () {
 			$paymentCtrl = \AppMain\Controller\PaymentController::class;
 
@@ -122,12 +125,6 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 				->setName('payment.cancel');
 			$this->route(['POST'], '/refund', $paymentCtrl, 'Refund')
 				->setName('payment.refund');
-
-			// this is helpful if you want to setup the Payum recommended multi-step Token payment setup
-			/*
-			$this->route(['POST'], '/prepare', $paymentCtrl, 'Prepare')->setName('payment.prepare');
-			$this->route(['GET'], '/done/{payum_token}', $paymentCtrl, 'Done')->setName('payment.done');
-			*/
 		});
 	}
 }

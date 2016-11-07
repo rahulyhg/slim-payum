@@ -8,6 +8,10 @@ use Payum\Core\Storage\AbstractStorage;
  * store token in memory
  */
 class TokenMemoryStorage extends AbstractStorage {
+	/**
+	 * the storage
+	 * @var array
+	 */
 	private $myData = [];
 
 	/**
