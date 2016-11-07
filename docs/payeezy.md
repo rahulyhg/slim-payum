@@ -9,7 +9,7 @@ In this example, we implemented Payeezy GatewayFactory with Payum on a separate 
 Then we add this factory to PayumBuilder like so:
 ```php
 // add custom gateway factory
-$builder->addGatewayFactory('payeezy', function (array $config, GatewayFactoryInterface $coreGatewayFactory) {
+$builder->addGatewayFactory('payeezy', function (array $config, $coreGatewayFactory) {
    return new \Payum\Payeezy\PayeezyGatewayFactory($config, $coreGatewayFactory);
 });
 ```
