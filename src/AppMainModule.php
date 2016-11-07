@@ -113,16 +113,20 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 		$app->route(['get'], '/', $homeCtrl, 'Home')->setName('home');
 		$app->group('/api/payment', function () {
 			$paymentCtrl = \AppMain\Controller\PaymentController::class;
-			$this->route(['POST'], '/purchase', $paymentCtrl, 'Charge')->setName('payment.charge');
+
+			$this->route(['POST'], '/authorize', $paymentCtrl, 'Authorize')
+				->setName('payment.authorize');
+			$this->route(['POST'], '/capture', $paymentCtrl, 'Capture')
+				->setName('payment.capture');
+			$this->route(['POST'], '/cancel', $paymentCtrl, 'Cancel')
+				->setName('payment.cancel');
+			$this->route(['POST'], '/refund', $paymentCtrl, 'Refund')
+				->setName('payment.refund');
 
 			// this is helpful if you want to setup the Payum recommended multi-step Token payment setup
 			/*
 			$this->route(['POST'], '/prepare', $paymentCtrl, 'Prepare')->setName('payment.prepare');
 			$this->route(['GET'], '/done/{payum_token}', $paymentCtrl, 'Done')->setName('payment.done');
-			$this->route(['GET'], '/authorize/{payum_token}', $paymentCtrl, 'Authorize')->setName('payment.authorize');
-			$this->route(['GET'], '/capture/{payum_token}', $paymentCtrl, 'Capture')->setName('payment.capture');
-			$this->route(['GET'], '/cancel/{payum_token}', $paymentCtrl, 'Cancel')->setName('payment.cancel');
-			$this->route(['GET'], '/refund/{payum_token}', $paymentCtrl, 'Refund')->setName('payment.refund');
 			*/
 		});
 	}

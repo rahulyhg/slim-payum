@@ -5,7 +5,7 @@ Login to the console and obtain an apiLoginId and transactionKey.
 
 ## POST
 ```
-curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/payment/purchase -d  '{
+curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/payment/capture -d  '{
     "gateway": {
         "gatewayName": "test",
         "factoryName": "omnipay_authorizenet_aim",
@@ -17,7 +17,7 @@ curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/pa
             "developerMode": true
         }
     },
-    "order": {
+    "payment": {
         "amount": 123.00,
         "currency": "USD",
         "card": {
@@ -34,7 +34,7 @@ curl -i -X POST -H "Content-Type: application/json" http://localhost:8888/api/pa
 ```json
 {
     "status": "captured",
-    "order": {
+    "payment": {
         "amount": 123,
         "currency": "USD",
         "card": {

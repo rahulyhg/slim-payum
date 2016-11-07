@@ -6,10 +6,7 @@ use Payum\Core\Request\Capture;
 use Payum\Core\Request\GetHumanStatus;
 
 class PaymentController extends \SlimDash\Core\SlimDashController {
-	/**
-	 * post to charge a card
-	 */
-	public function postCharge() {
+	public function execute($className) {
 		$request = $this->request;
 		$body = $request->getParsedBody();
 
@@ -34,10 +31,10 @@ class PaymentController extends \SlimDash\Core\SlimDashController {
 		*/
 		$gateway = $payum->getGateway($body['gateway']['gatewayName']);
 
-		// create a Capture request with the order data
-		// similar to gateway config, order data are also gateway implementation specific
+		// create a Capture request with the payment data
+		// similar to gateway config, payment data are also gateway implementation specific
 		/*
-			 "order": {
+			 "payment": {
 			        "amount": 123.00,
 			        "currency": "USD",
 			        "card": {
@@ -48,7 +45,7 @@ class PaymentController extends \SlimDash\Core\SlimDashController {
 			        }
 			    }
 		 */
-		$request = new Capture($body['order']);
+		$request = new $className($body['payment']);
 
 		// immediately execute the capture request
 		$gateway->execute($request);
@@ -63,6 +60,34 @@ class PaymentController extends \SlimDash\Core\SlimDashController {
 		$gateway->execute($status);
 
 		// return the result
-		$this->response->withJson(['status' => $status->getValue(), 'order' => $status->getFirstModel()], 200);
+		return $this->response->withJson(['status' => $status->getValue(), 'payment' => $status->getFirstModel()], 200);
+	}
+
+	/**
+	 * post Authorize
+	 */
+	public function postAuthorize() {
+		return $this->execute('\Payum\Core\Request\Authorize');
+	}
+
+	/**
+	 * post Capture
+	 */
+	public function postCapture() {
+		return $this->execute('\Payum\Core\Request\Capture');
+	}
+
+	/**
+	 * post Cancel
+	 */
+	public function postCancel() {
+		return $this->execute('\Payum\Core\Request\Cancel');
+	}
+
+	/**
+	 * post Refund
+	 */
+	public function postRefund() {
+		return $this->execute('\Payum\Core\Request\Refund');
 	}
 }
