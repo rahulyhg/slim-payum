@@ -61,7 +61,7 @@ class AppMainModule extends \SlimDash\Core\SlimDashModule {
 
 			// add custom gateway factory
 			$builder->addGatewayFactory('payeezy', function (array $config, $coreGatewayFactory) {
-				return new \Payum\Payeezy\PayeezyGatewayFactory($config, $coreGatewayFactory);
+				return new \SlimDash\Payeezy\PayeezyGatewayFactory($config, $coreGatewayFactory);
 			});
 
 			// this is helpful if you want Payum recommended multi-step Token setup
